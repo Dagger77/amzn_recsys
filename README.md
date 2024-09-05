@@ -88,5 +88,6 @@ Example of response:
 ]
 ```
 ### Additional Notes
-Cold user Handling: If a user is not found in the mapping, the application returns the top global items recommendation.
-Debug Mode: The application runs in debug mode by default (debug=True).
+* Cold user Handling: If a user is not found in the mapping, the application returns the top global items recommendation.
+* Debug Mode: The application runs in debug mode by default (debug=True).
+* Python version: The App was created and tested with Python 3.10
