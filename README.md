@@ -54,7 +54,7 @@ python amzn_recsys_app.py
 ```
 
 ### Usage
-1. Recommendations for a User
+**1. Recommendations for a User**
    
 To get personalized recommendations for a known user, send a GET request to:
 ```bash
@@ -75,7 +75,7 @@ Example of response:
     ]
 }
 ```
-2. Get a Sample of Users
+**2. Get a Sample of Users**
 
 To retrieve a sample of user IDs and their corresponding names:
 ```bash
@@ -89,6 +89,24 @@ Example of response:
     {"125": "Alice Johnson"}
 ]
 ```
+**3. Running Tests**
+Unit tests have been added to ensure the robustness of the recommendation system.
+
+Running Tests with unittest:
+To run all the tests, use the following command
+```bash
+python -m unittest discover -v
+```
+Example Test Cases:
+* Test Known User Recommendations:
+This test verifies that the system provides recommendations for a known user.
+* Test Unknown User Recommendations:
+This test checks the system’s behavior when recommending items to an unknown user by returning the top items.
+* Test Invalid User ID:
+This test ensures that invalid user IDs (non-integer) return an appropriate error message.
+* Test Input Validation:
+This test validates whether input such as num_recommendations that exceeds allowed limits is handled correctly.
+
 ### Additional Notes
 * Cold user Handling: If a user is not found in the mapping, the application returns the top global items recommendation.
 * Debug Mode: The application runs in debug mode by default (debug=True).
