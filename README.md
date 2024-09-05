@@ -55,6 +55,7 @@ python amzn_recsys_app.py
 
 ### Usage
 1. Recommendations for a User
+   
 To get personalized recommendations for a known user, send a GET request to:
 ```bash
 curl http://127.0.0.1:5000/recommend/<user_id>
@@ -75,6 +76,7 @@ Example of response:
 }
 ```
 2. Get a Sample of Users
+
 To retrieve a sample of user IDs and their corresponding names:
 ```bash
 curl http://127.0.0.1:5000/user_sample
