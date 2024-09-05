@@ -1,14 +1,12 @@
 import unittest
 from flask import Flask
-from app import RecommendationApp
+from app import app
 
 
 class TestRecommendationApp(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        # Initialize the Flask app and test client
-        cls.app = RecommendationApp().app
-        cls.client = cls.app.test_client()
+        cls.client = app.test_client()
 
     def test_recommend_known_user(self):
         # Test recommendation for a known user
@@ -21,7 +19,7 @@ class TestRecommendationApp(unittest.TestCase):
         self.assertGreater(len(data['recommendations']), 0)
 
     def test_recommend_unknown_user(self):
-        # Test recommendation for an unknown user (user_id not in the dataset)
+        # Test recommendation for an unknown user (user_id not in the dataset model was trained on)
         user_id = 999999
         response = self.client.get(f'/recommend/{user_id}')
         self.assertEqual(response.status_code, 200)

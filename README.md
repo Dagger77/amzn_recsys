@@ -110,10 +110,9 @@ This test validates whether input such as num_recommendations that exceeds allow
 **4. Project structure**
 ```bash
 amzn_recsys/
-│
-├── app.py                 # Main entry point for the app 
-├── handlers.py            # Handlers for routes 
-├── utils.py               # Utility functions 
+├── app.py                 # Flask app with routes
+├── recommender.py         # Recommendation logic (moved from app.py)
+├── utils.py               # Utility functions (e.g., pickle_load)
 ├── model/                 # Pre-trained models and mappings
 └── tests/                 # Test cases
 ```
