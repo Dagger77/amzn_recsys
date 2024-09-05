@@ -26,6 +26,10 @@ class RecommendationApp:
     def recommend_items(self, user_id, num_recommendations=5):
         try:
             user_id = int(user_id)
+        except ValueError:
+            return {"error": "Invalid user_id. It should be a number."}, 400
+
+        try:
             model_user_id = self.user_id_mapping.get(user_id, None)
 
             if model_user_id is None:
@@ -52,13 +56,17 @@ class RecommendationApp:
             return top_item_ids
         except Exception as e:
             print(f"Error during recommendation for user {user_id}: {e}")
-            return []
+            return {"error": "An error occurred while processing the recommendation."}, 500
 
     def add_routes(self):
         # Define the recommendation route
         @self.app.route('/recommend/<user_id>', methods=['GET'])
         def recommend(user_id):
             recommendations = self.recommend_items(user_id)
+
+            # Check if recommendations is an error response
+            if isinstance(recommendations, tuple):
+                return jsonify(recommendations[0]), recommendations[1]
 
             user_name = self.user_name_mapping.get(user_id, "Unknown User")
 
@@ -77,10 +85,14 @@ class RecommendationApp:
         # Define a route to get a sample of model's user_id: userName pairs
         @self.app.route('/user_sample', methods=['GET'])
         def get_user_sample():
-            # Get a sample of user_id: userName pairs
-            sample_size = 10
-            user_sample = random.sample(list(self.user_name_mapping.items()), sample_size)
-            return jsonify(user_sample)
+            try:
+                # Get a sample of user_id: userName pairs
+                sample_size = 10
+                user_sample = random.sample(list(self.user_name_mapping.items()), sample_size)
+                return jsonify(user_sample)
+            except Exception as e:
+                print(f"Error retrieving user sample: {e}")
+                return {"error": "An error occurred while retrieving the user sample."}, 500
 
     def run(self):
         self.app.run(debug=True)
