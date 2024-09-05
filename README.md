@@ -50,7 +50,7 @@ The application relies on the following pre-trained models and mappings (ensure 
 ### Run the Application
 Start the Flask application by running:
 ```bash
-python amzn_recsys_app.py
+python app.py
 ```
 
 ### Usage
@@ -106,6 +106,17 @@ This test checks the system’s behavior when recommending items to an unknown u
 This test ensures that invalid user IDs (non-integer) return an appropriate error message.
 * Test Input Validation:
 This test validates whether input such as num_recommendations that exceeds allowed limits is handled correctly.
+
+**4. Project structure**
+```bash
+amzn_recsys/
+│
+├── app.py                 # Main entry point for the app 
+├── handlers.py            # Handlers for routes 
+├── utils.py               # Utility functions 
+├── model/                 # Pre-trained models and mappings
+└── tests/                 # Test cases
+```
 
 ### Additional Notes
 * Cold user Handling: If a user is not found in the mapping, the application returns the top global items recommendation.

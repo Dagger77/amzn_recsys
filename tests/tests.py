@@ -1,6 +1,6 @@
 import unittest
 from flask import Flask
-from amzn_recsys_app import RecommendationApp
+from app import RecommendationApp
 
 
 class TestRecommendationApp(unittest.TestCase):
