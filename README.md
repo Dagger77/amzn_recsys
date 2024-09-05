@@ -95,7 +95,7 @@ Unit tests have been added to ensure the robustness of the recommendation system
 Running Tests with unittest:
 To run all the tests, use the following command
 ```bash
-python -m unittest discover -v
+python -m unittest discover -v tests
 ```
 Example Test Cases:
 * Test Known User Recommendations:
