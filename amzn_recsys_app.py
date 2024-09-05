@@ -1,9 +1,9 @@
-from flask import Flask, request, jsonify
-import numpy as np
-import pickle
-import random
+from flask import Flask
 from typing import Dict, Set, List, Any
+import numpy as np
 from pydantic import BaseModel, conint, ValidationError
+from utils import pickle_load
+from handlers import recommend_handler, user_sample_handler
 
 model_path = 'model\\lightfm_model.pkl'
 user_id_mapping_path = 'model\\model_user_id_map.pkl'
@@ -12,18 +12,6 @@ user_name_mapping_path = 'model\\user_to_name_map.pkl'
 item_name_mapping_path = 'model\\item_to_name_map.pkl'
 known_interactions_path = 'model\\user_item_interactions.pkl'
 top_items_path = 'model\\top_20_items.pkl'
-
-
-def pickle_load(path: str) -> Any:
-    try:
-        with open(path, 'rb') as f:
-            return pickle.load(f)
-    except FileNotFoundError:
-        raise FileNotFoundError(f"File not found: {path}")
-    except pickle.UnpicklingError:
-        raise pickle.UnpicklingError(f"Error loading the pickle file: {path}")
-    except Exception as e:
-        raise Exception(f"An unexpected error occurred while loading {path}: {e}")
 
 
 class RecommendationInput(BaseModel):
@@ -46,9 +34,12 @@ class RecommendationApp:
         self.known_interactions: Dict[int, Set[int]] = pickle_load(known_interactions_path)
         self.top_items: List[int] = pickle_load(top_items_path)
 
-        # Initialize Flask app
+        # Initialize app
         self.app = Flask(__name__)
-        self.add_routes()
+
+        # Attach routes
+        recommend_handler(self.app, self)
+        user_sample_handler(self.app, self)
 
     def recommend_items(self, user_id: int, num_recommendations: int = 5):
 
@@ -65,7 +56,6 @@ class RecommendationApp:
             model_user_id = self.user_id_mapping.get(validated_user_id, None)
 
             if model_user_id is None:
-                # If the user is unknown, return the precomputed top global items
                 print(f"Unknown user {validated_user_id}. Returning top global items.")
                 return self.top_items[:validated_num_recommendations]
 
@@ -86,51 +76,10 @@ class RecommendationApp:
             top_item_ids = [self.item_id_inverse_mapping[filtered_item_indices[i]] for i in top_filtered_indices]
 
             return top_item_ids
+
         except Exception as e:
             print(f"Error during recommendation for user {user_id}: {e}")
             return {"error": "An error occurred while processing the recommendation."}, 500
-
-    def add_routes(self):
-        # Define the recommendation route
-        @self.app.route('/recommend/<user_id>', methods=['GET'])
-        def recommend(user_id):
-
-            try:
-                user_id = int(user_id)
-            except ValueError:
-                return jsonify({"error": "Invalid user_id. It should be an integer."}), 400
-
-            recommendations = self.recommend_items(user_id)
-
-            # Check if recommendations is an error response
-            if isinstance(recommendations, tuple):
-                return jsonify(recommendations[0]), recommendations[1]
-
-            user_name = self.user_name_mapping.get(user_id, "Unknown User")
-
-            recommended_item_names = [
-                {"item_id": item_id, "item_name": self.item_name_mapping.get(item_id, "Unknown Item")}
-                for item_id in recommendations
-            ]
-
-            return jsonify({
-                "user_id": user_id,
-                "user_name": user_name,
-                'recommendations': recommendations,
-                "recommendations_ext": recommended_item_names
-            })
-
-        # Define a route to get a sample of model's user_id: userName pairs
-        @self.app.route('/user_sample', methods=['GET'])
-        def get_user_sample():
-            try:
-                # Get a sample of user_id: userName pairs
-                sample_size = 10
-                user_sample = random.sample(list(self.user_name_mapping.items()), sample_size)
-                return jsonify(user_sample)
-            except Exception as e:
-                print(f"Error retrieving user sample: {e}")
-                return {"error": "An error occurred while retrieving the user sample."}, 500
 
     def run(self):
         self.app.run(debug=True)
