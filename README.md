@@ -13,7 +13,7 @@ Located in the folder `eda_notebooks`:
 ## 2. Recommender App
 
 ### Description
-This application serves as a recommendation engine using the pre-trained **LightFM** model. The app provides personalized recommendations for known users and general top item recommendations for unknown users.
+This application serves as a recommendation engine using the pre-trained **LightFM** model. The app provides personalized recommendations for known users and general top items recommendations for unknown users.
 
 ### Installation
 
@@ -104,8 +104,6 @@ This test verifies that the system provides recommendations for a known user.
 This test checks the system’s behavior when recommending items to an unknown user by returning the top items.
 * Test Invalid User ID:
 This test ensures that invalid user IDs (non-integer) return an appropriate error message.
-* Test Input Validation:
-This test validates whether input such as num_recommendations that exceeds allowed limits is handled correctly.
 
 **4. Project structure**
 ```bash
