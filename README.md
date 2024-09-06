@@ -10,7 +10,13 @@ Located in the folder `eda_notebooks`:
 3. **Amazon_Reviews_2018_Feature_extraction.ipynb** – Feature extraction notebook.
 4. **Amazon_Reviews_2018_Modeling.ipynb** – Model selection and evaluation.
 
-## 2. Recommender App
+## 2. Model preparation code
+### Description
+Located in the folder `model_preparation`
+model_training.py contains the code that prepares the data, trains and saves the model
+ensure to update the path to dataset
+
+## 3. Recommender App
 
 ### Description
 This application serves as a recommendation engine using the pre-trained **LightFM** model. The app provides personalized recommendations for known users and general top items recommendations for unknown users.
