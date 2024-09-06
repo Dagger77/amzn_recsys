@@ -13,8 +13,10 @@ Located in the folder `eda_notebooks`:
 ## 2. Model preparation code
 ### Description
 Located in the folder `model_preparation`
-model_training.py contains the code that prepares the data, trains and saves the model
-ensure to update the path to dataset
+
+`model_training.py` contains the code that prepares the data, trains and saves the model
+
+*ensure to update the path to dataset*
 
 ## 3. Recommender App
 
