@@ -6,8 +6,9 @@ name = "pypi"
 [packages]
 flask = "*"
 pandas = "*"
-lightfm = "*"
 pydantic = "*"
+pyarrow = "*"
+lightfm = "*"
 
 [dev-packages]
 
