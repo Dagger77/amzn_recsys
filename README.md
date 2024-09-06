@@ -109,8 +109,8 @@ This test ensures that invalid user IDs (non-integer) return an appropriate erro
 ```bash
 amzn_recsys/
 ├── app.py                 # Flask app with routes
-├── recommender.py         # Recommendation logic (moved from app.py)
-├── utils.py               # Utility functions (e.g., pickle_load)
+├── recommender.py         # Recommendation logic 
+├── utils.py               # Utility functions 
 ├── model/                 # Pre-trained models and mappings
 └── tests/                 # Test cases
 ```
